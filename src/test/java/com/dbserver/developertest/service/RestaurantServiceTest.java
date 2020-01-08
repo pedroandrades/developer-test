@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -43,6 +44,19 @@ public class RestaurantServiceTest {
         Restaurant restaurantCreated = restaurantService.createRestaurant(restaurantDTO);
 
         assertThat(restaurantCreated).isEqualToComparingFieldByField(restaurantExpected);
+    }
+
+    @Test
+    public void whenCheckWinnerItShouldReturnWinnerRestaurant(){
+        String winner = "restaurant";
+        Optional<Restaurant> restaurantExpected = Optional.ofNullable(Restaurant.builder().id(1L).name("restaurant").build());
+
+        when(restaurantRepository.findByNameEquals(any(String.class))).thenReturn(restaurantExpected);
+        when(restaurantRepository.save(any(Restaurant.class))).thenReturn(restaurantExpected.get());
+
+        Restaurant winnerRestaurant = restaurantService.winnerRestaurant(winner);
+
+        assertThat(winnerRestaurant).isEqualToComparingFieldByField(restaurantExpected.get());
     }
 
     @Test(expected = ExistingRestaurantException.class)
