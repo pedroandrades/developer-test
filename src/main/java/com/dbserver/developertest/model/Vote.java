@@ -19,10 +19,12 @@ public class Vote {
     @NotNull
     private LocalDate voteDate;
 
+    @NotNull
     @OneToOne()
     @JoinColumn(name = "restaurant", referencedColumnName = "id")
     private Restaurant restaurant;
 
+    @NotNull
     @OneToOne()
     @JoinColumn(name = "hungry_professional", referencedColumnName = "id")
     private HungryProfessional hungryProfessional;
