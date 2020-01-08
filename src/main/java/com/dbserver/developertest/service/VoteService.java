@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class VoteService {
@@ -40,5 +41,28 @@ public class VoteService {
         }
 
         throw new NotFoundException("Restaurant or Hungry Professional not found.");
+    }
+
+    public String winner(){
+        List<Vote> voteList = voteRepository.findAll();
+        voteList = voteList.stream()
+                .filter(p -> p.getVoteDate().getDayOfMonth() == LocalDate.now().getDayOfMonth())
+                .collect(Collectors.toList());
+        Map<String, Long> counters = voteList.stream()
+                .collect(Collectors.groupingBy(p -> p.getRestaurant().getName(),
+                        Collectors.counting()));
+
+        Map.Entry<String, Long> maxEntry = null;
+
+        for (Map.Entry<String, Long> entry : counters.entrySet())
+        {
+            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
+            {
+                maxEntry = entry;
+            }
+        }
+
+        return maxEntry.getKey();
+
     }
 }

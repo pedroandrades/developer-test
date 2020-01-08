@@ -56,7 +56,7 @@ public class HungryProfessionalServiceTest {
     }
 
     @Test(expected = ExistingHungryProfessionalException.class)
-    public void whenCreateRestaurantWithAExistingNameItShouldReturnException(){
+    public void whenCreateHungryProfessionalWithAExistingNicknameItShouldReturnException(){
         HungryProfessionalDTO hungryProfessionalDTO =
                 new HungryProfessionalDTO("oldHungryProfessional",
                         "oldHungryProfessional", "oldHungryProfessional");
