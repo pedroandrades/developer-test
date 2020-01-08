@@ -77,11 +77,11 @@ public class HungryProfessionalControllerTest {
                 new HungryProfessionalDTO("hungryProfessional", "hungryProfessional", "hungryProfession");
 
         when(hungryProfessionalService.createHungryProfessional(any(HungryProfessionalDTO.class)))
-                .thenThrow(new ExistingHungryProfessionalException("Hungry Professional already exists."));
+                .thenThrow(new ExistingHungryProfessionalException("Hungry Professional already exists"));
 
         JSONObject expected = new JSONObject();
         expected.put("status", 400);
-        expected.put("message", "Hungry Professional already exists.");
+        expected.put("message", "Hungry Professional already exists");
 
         mockMvc.perform(post("/v1/hungry-professional")
                 .content(mapper.writeValueAsString(hungryProfessionalDTO))

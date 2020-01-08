@@ -3,7 +3,9 @@ package com.dbserver.developertest.controller;
 import com.dbserver.developertest.dto.VoteDTO;
 import com.dbserver.developertest.exception.MoreThanOneVotePerDayException;
 import com.dbserver.developertest.exception.NotFoundException;
+import com.dbserver.developertest.model.HungryProfessional;
 import com.dbserver.developertest.model.Vote;
+import com.dbserver.developertest.repository.HungryProfessionalRepository;
 import com.dbserver.developertest.service.RestaurantService;
 import com.dbserver.developertest.service.VoteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,9 +17,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.Base64Utils;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,9 +37,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc
+@ContextConfiguration
+@WebAppConfiguration
 public class VoteControllerTest {
 
     @MockBean
@@ -81,11 +94,11 @@ public class VoteControllerTest {
     public void whenCreateVoteWithANonExistingRestaurantOrHungryProfessionalItShouldReturnErrorMessage() throws Exception{
         VoteDTO voteDTO = new VoteDTO("restaurant", "hungry");
 
-        when(voteService.createVote(voteDTO)).thenThrow(new NotFoundException("Restaurant or Hungry Professional not found."));
+        when(voteService.createVote(voteDTO)).thenThrow(new NotFoundException("Restaurant or Hungry Professional not found"));
 
         JSONObject expected = new JSONObject();
         expected.put("status", 400);
-        expected.put("message", "Restaurant or Hungry Professional not found.");
+        expected.put("message", "Restaurant or Hungry Professional not found");
 
         mockMvc.perform(post("/v1/vote")
                 .content(mapper.writeValueAsString(voteDTO))
@@ -99,11 +112,11 @@ public class VoteControllerTest {
     public void whenCreateVoteWithAHungryProfessionalThatAlreadyVotedTodayItShouldReturnErrorMessage() throws Exception{
         VoteDTO voteDTO = new VoteDTO("restaurant", "hungry");
 
-        when(voteService.createVote(voteDTO)).thenThrow(new MoreThanOneVotePerDayException("You already voted today."));
+        when(voteService.createVote(voteDTO)).thenThrow(new MoreThanOneVotePerDayException("You already voted today"));
 
         JSONObject expected = new JSONObject();
         expected.put("status", 400);
-        expected.put("message", "You already voted today.");
+        expected.put("message", "You already voted today");
 
         mockMvc.perform(post("/v1/vote")
                 .content(mapper.writeValueAsString(voteDTO))

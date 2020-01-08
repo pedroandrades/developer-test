@@ -34,7 +34,7 @@ public class RestaurantController {
     @ApiOperation(value = "Create a Restaurant")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Restaurant Created"),
-            @ApiResponse(code = 400, message = "Restaurant already exists."),
+            @ApiResponse(code = 400, message = "Restaurant already exists"),
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> create(@Valid @RequestBody RestaurantDTO restaurantDTO){

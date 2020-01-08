@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+//@EnableJpaRepositories(basePackages = "com.dbserver.developertest.controller")
 public class WebSecurityConfigAdapter extends WebSecurityConfigurerAdapter {
 
     @Bean

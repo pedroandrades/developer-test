@@ -37,14 +37,14 @@ public class VoteService {
         if(restaurantOptional.isPresent() && hungryProfessionalOptional.isPresent()){
             HungryProfessional hungryProfessional = hungryProfessionalOptional.get();
             if(checkHungryProfessionalVote(hungryProfessional)){
-                throw new MoreThanOneVotePerDayException("You already voted today.");
+                throw new MoreThanOneVotePerDayException("You already voted today");
             }
             Restaurant restaurant = restaurantOptional.get();
             return voteRepository.save(Vote.builder().hungryProfessional(hungryProfessional).
                             restaurant(restaurant).voteDate(LocalDate.now()).build());
         }
 
-        throw new NotFoundException("Restaurant or Hungry Professional not found.");
+        throw new NotFoundException("Restaurant or Hungry Professional not found");
     }
 
     private boolean checkHungryProfessionalVote(HungryProfessional hungryProfessional){

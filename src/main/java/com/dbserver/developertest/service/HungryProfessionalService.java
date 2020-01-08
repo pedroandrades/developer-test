@@ -29,6 +29,6 @@ public class HungryProfessionalService {
 
         }
 
-        throw new ExistingHungryProfessionalException("Hungry Professional already exists.");
+        throw new ExistingHungryProfessionalException("Hungry Professional already exists");
     }
 }

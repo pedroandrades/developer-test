@@ -14,9 +14,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/v1/hungry-professional").permitAll()
-                .antMatchers(HttpMethod.POST, "/v1/restaurant").authenticated()
-                .antMatchers(HttpMethod.POST, "/v1/vote").authenticated()
-                .antMatchers(HttpMethod.GET, "/v1/vote").authenticated();
+                .antMatchers(HttpMethod.POST, "/v1/restaurant").permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/vote").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/vote").permitAll();
 
         http.headers().frameOptions().disable();
     }

@@ -23,7 +23,7 @@ public class RestaurantService {
        if(restaurantRepository.findAll().stream().map(Restaurant::getName).noneMatch(restaurantDTO.getName()::equals)){
           return restaurantRepository.save(Restaurant.builder().name(restaurantDTO.getName()).build());
        }
-       throw new ExistingRestaurantException("Restaurant already exists.");
+       throw new ExistingRestaurantException("Restaurant already exists");
     }
 
     public Restaurant winnerRestaurant(String winner){

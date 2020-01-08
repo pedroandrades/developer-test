@@ -66,11 +66,11 @@ public class RestaurantControllerTest {
         RestaurantDTO restaurantDTO = new RestaurantDTO("restaurant");
 
         when(restaurantService.createRestaurant(restaurantDTO))
-                .thenThrow(new ExistingRestaurantException("Restaurant already exists."));
+                .thenThrow(new ExistingRestaurantException("Restaurant already exists"));
 
         JSONObject expected = new JSONObject();
         expected.put("status", 400);
-        expected.put("message", "Restaurant already exists.");
+        expected.put("message", "Restaurant already exists");
 
         mockMvc.perform(post("/v1/restaurant")
                 .content(mapper.writeValueAsString(restaurantDTO))
