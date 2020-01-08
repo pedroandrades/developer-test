@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -20,5 +21,7 @@ public class Restaurant {
 
     @NotNull
     private String name;
+
+    private LocalDate chosenDate;
 
 }
