@@ -6,6 +6,9 @@ import com.dbserver.developertest.service.HungryProfessionalService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +29,11 @@ public class HungryProfessionalController {
         this.hungryProfessionalService = hungryProfessionalService;
     }
 
+    @ApiOperation(value = "Create a Hungry Professional")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Hungry Professional Created"),
+            @ApiResponse(code = 400, message = "Hungry Professional already exists"),
+    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> create(@Valid @RequestBody HungryProfessionalDTO hungryProfessionalDTO){
         hungryProfessionalService.createHungryProfessional(hungryProfessionalDTO);

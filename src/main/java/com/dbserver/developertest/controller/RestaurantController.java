@@ -9,6 +9,9 @@ import com.dbserver.developertest.service.RestaurantService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +31,11 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
+    @ApiOperation(value = "Create a Restaurant")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Restaurant Created"),
+            @ApiResponse(code = 400, message = "Restaurant already exists."),
+    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> create(@Valid @RequestBody RestaurantDTO restaurantDTO){
         restaurantService.createRestaurant(restaurantDTO);
