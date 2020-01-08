@@ -32,10 +32,6 @@ public class WebSecurityConfigAdapter extends WebSecurityConfigurerAdapter {
     @Autowired
     public void authenticationManager(AuthenticationManagerBuilder builder, HungryProfessionalRepository hungryProfessionalRepository)
             throws Exception {
-        if (hungryProfessionalRepository.count() == 0) {
-            String admin = "admin";
-            hungryProfessionalRepository.save(HungryProfessional.builder().nickname(admin).password(admin).name(admin).build());
-        }
 
         builder.userDetailsService(nickname -> new UserDetailDTO(hungryProfessionalRepository.findByNicknameEquals(nickname)));
     }

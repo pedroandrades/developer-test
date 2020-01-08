@@ -1,4 +1,4 @@
-package com.dbserver.developertest.repository;
+package com.dbserver.developertest.controller;
 
 import com.dbserver.developertest.dto.HungryProfessionalDTO;
 import com.dbserver.developertest.exception.ExistingHungryProfessionalException;
