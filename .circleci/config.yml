@@ -3,6 +3,10 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
+      - image: circleci/postgres:11
+        environment:
+          POSTGRES_USER: admin
+          POSTGRES_DB: developer
     working_directory: ~/git/developer-test
     environment:
       MAVEN_OPTS: -Xmx3200m
