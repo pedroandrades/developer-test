@@ -35,7 +35,7 @@ public class RestaurantController {
     }
 
     @ExceptionHandler(ExistingRestaurantException.class)
-    public ResponseEntity<JsonNode> handleException(ExistingHungryProfessionalException e) {
+    public ResponseEntity<JsonNode> handleException(ExistingRestaurantException e) {
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         ObjectNode jsonNode = new ObjectMapper().createObjectNode();
         jsonNode.put("status", badRequest.value());

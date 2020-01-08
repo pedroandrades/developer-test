@@ -1,6 +1,7 @@
 package com.dbserver.developertest.service;
 
 import com.dbserver.developertest.dto.VoteDTO;
+import com.dbserver.developertest.exception.MoreThanOneVotePerDayException;
 import com.dbserver.developertest.exception.NotFoundException;
 import com.dbserver.developertest.model.HungryProfessional;
 import com.dbserver.developertest.model.Restaurant;
@@ -35,12 +36,22 @@ public class VoteService {
 
         if(restaurantOptional.isPresent() && hungryProfessionalOptional.isPresent()){
             HungryProfessional hungryProfessional = hungryProfessionalOptional.get();
+            if(checkHungryProfessionalVote(hungryProfessional)){
+                throw new MoreThanOneVotePerDayException("You already voted today.");
+            }
             Restaurant restaurant = restaurantOptional.get();
             return voteRepository.save(Vote.builder().hungryProfessional(hungryProfessional).
                             restaurant(restaurant).voteDate(LocalDate.now()).build());
         }
 
         throw new NotFoundException("Restaurant or Hungry Professional not found.");
+    }
+
+    private boolean checkHungryProfessionalVote(HungryProfessional hungryProfessional){
+        List<Vote> voteList = voteRepository.findAll().stream()
+                .filter(p -> p.getVoteDate().getDayOfMonth() == LocalDate.now().getDayOfMonth())
+                .collect(Collectors.toList());
+        return voteList.stream().anyMatch(vote -> hungryProfessional.equals(vote.getHungryProfessional()));
     }
 
     public String winner(){
@@ -51,9 +62,7 @@ public class VoteService {
         Map<String, Long> counters = voteList.stream()
                 .collect(Collectors.groupingBy(p -> p.getRestaurant().getName(),
                         Collectors.counting()));
-
         Map.Entry<String, Long> maxEntry = null;
-
         for (Map.Entry<String, Long> entry : counters.entrySet())
         {
             if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
@@ -61,8 +70,6 @@ public class VoteService {
                 maxEntry = entry;
             }
         }
-
         return maxEntry.getKey();
-
     }
 }
