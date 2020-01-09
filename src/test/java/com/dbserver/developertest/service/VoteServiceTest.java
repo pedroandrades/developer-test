@@ -88,8 +88,6 @@ public class VoteServiceTest {
     public void whenCheckWinnerItShouldReturnWinner(){
         String winner = voteService.winner();
 
-        when(restaurantService.winnerRestaurant(any(String.class))).thenReturn(any(Restaurant.class));
-
         assertThat(winner).isEqualTo("restaurant1");
     }
 

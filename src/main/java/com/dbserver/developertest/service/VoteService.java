@@ -82,6 +82,7 @@ public class VoteService {
             }
         }
 
+        assert maxEntry != null;
         String winner = maxEntry.getKey();
         restaurantService.winnerRestaurant(winner);
         return winner;
