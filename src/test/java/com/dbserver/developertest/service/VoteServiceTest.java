@@ -110,7 +110,7 @@ public class VoteServiceTest {
                 .restaurant(restaurantExpected.get())
                 .voteDate(LocalDate.now()).build();
 
-        when(voteRepository.save(any(Vote.class))).thenReturn(voteExpected);
+        //when(voteRepository.save(any(Vote.class))).thenReturn(voteExpected);
         when(hungryProfessionalRepository.findByNicknameEquals(any(String.class))).thenReturn(hungryProfessionalExpected);
         when(restaurantRepository.findByNameEquals(any(String.class))).thenReturn(restaurantExpected);
 
