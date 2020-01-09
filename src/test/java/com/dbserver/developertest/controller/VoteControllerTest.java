@@ -115,13 +115,13 @@ public class VoteControllerTest {
         when(voteService.createVote(voteDTO)).thenThrow(new MoreThanOneVotePerDayException("You already voted today"));
 
         JSONObject expected = new JSONObject();
-        expected.put("status", 400);
+        expected.put("status", 405);
         expected.put("message", "You already voted today");
 
         mockMvc.perform(post("/v1/vote")
                 .content(mapper.writeValueAsString(voteDTO))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isMethodNotAllowed())
                 .andExpect(content().json(String.valueOf(expected)));
     }
 }

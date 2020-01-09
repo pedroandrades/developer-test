@@ -7,10 +7,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 
 @SpringBootTest
-public class DeveloperTestApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
+public class ContextsLoads {
 
 }

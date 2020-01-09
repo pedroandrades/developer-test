@@ -35,7 +35,7 @@ public class VoteController {
     @ApiOperation(value = "Insert a vote")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Your vote has been computed"),
-            @ApiResponse(code = 400, message = "You already voted today"),
+            @ApiResponse(code = 405, message = "You already voted today"),
             @ApiResponse(code = 400, message = "Restaurant or Hungry Professional not found"),
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,10 +61,10 @@ public class VoteController {
 
     @ExceptionHandler(MoreThanOneVotePerDayException.class)
     public ResponseEntity<JsonNode> handleException(MoreThanOneVotePerDayException e) {
-        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        HttpStatus methodNotAllowed = HttpStatus.METHOD_NOT_ALLOWED;
         ObjectNode jsonNode = new ObjectMapper().createObjectNode();
-        jsonNode.put("status", badRequest.value());
+        jsonNode.put("status", methodNotAllowed.value());
         jsonNode.put("message", e.getMessage());
-        return ResponseEntity.status(badRequest).body(jsonNode);
+        return ResponseEntity.status(methodNotAllowed).body(jsonNode);
     }
 }
